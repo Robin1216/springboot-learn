@@ -31,3 +31,8 @@ build/
 .vscode/
 /.mvn/wrapper/maven-wrapper.jar
 /.mvn/wrapper/
+
+
+/.idea/
+/HELP.md
+/springboot-learn.iml
