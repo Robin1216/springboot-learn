@@ -42,9 +42,12 @@ springboot 单体样板工程搭建
     
     resources 目录结构
     |- db 主要是数据库相关的文件；如 sql 程序不执行，仅作存档用
-    |- db mybatis 的 mapper.xml 文件集合，实现实体对数据表的映射
+    |- mapper mybatis 的 mapper.xml 文件集合，实现实体对数据表的映射
     |- config 配置文件
-    |- application.yml 主要配置文件，通用配置
+    |- statics 静态资源
+    |- templates 模板资源
+    |- doc 参考文档，不参与业务逻辑
+    |- application.yml 主配置文件，通用参数配置
     |- application-dev.yml  开发环境配置
     |- application-test.yml 测试环境配置
     |- application-pro.yml  生产环境配置
