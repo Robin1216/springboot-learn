@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+参考
+https://blog.csdn.net/xu_san_duo/article/details/80364600
+https://blog.csdn.net/inke88/article/details/75007649
+http://tengj.top/2017/04/05/springboot7/
+http://logback.qos.ch/manual/configuration.html
+https://www.cnblogs.com/vipstone/p/9878862.html
+-->
+
+<!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
+<!-- scan:当此属性设置为true时，配置文档如果发生改变，将会被重新加载，默认值为true -->
+<!-- scanPeriod:设置监测配置文档是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
+<!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<configuration  scan="true" scanPeriod="10 seconds">
+     <!-- 引入默认配置；提供转换规则、模型属性值和通用日志配置。-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+     
+     <!-- 设置控制台日志配置-->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN_CONSOLE}</pattern>
+        </encoder>
+    </appender>
+     
+     <!-- 设置日志文件配置-->
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+    <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN_FILE}</pattern>
+        </encoder>
+        <file>${LOG_PATH}/${LOG_FILE}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 各日志的打印规则 -->
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
+    <property name="LOG_PATH" value="/FIREFIGHTING/log" />
+    <property name="LOG_PATTERN_CONSOLE" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} --> %msg%n" />
+    <property name="LOG_PATTERN_FILE" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} --> %msg%n" />
+
+    <!-- 设置日志级别，及需要记录日志的类 -->
+    <root level="INFO">
+        <appender-ref ref="consoleLog" />
+        <appender-ref ref="fileLog" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <logger name="org.springframework.web" level="DEBUG"/>
+</configuration>
