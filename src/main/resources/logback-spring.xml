@@ -6,51 +6,136 @@ https://blog.csdn.net/xu_san_duo/article/details/80364600
 https://blog.csdn.net/inke88/article/details/75007649
 http://tengj.top/2017/04/05/springboot7/
 http://logback.qos.ch/manual/configuration.html
-https://www.cnblogs.com/vipstone/p/9878862.html
 -->
 
 <!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
 <!-- scan:当此属性设置为true时，配置文档如果发生改变，将会被重新加载，默认值为true -->
 <!-- scanPeriod:设置监测配置文档是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
 <!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
-<configuration  scan="true" scanPeriod="10 seconds">
-     <!-- 引入默认配置；提供转换规则、模型属性值和通用日志配置。-->
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+    <!-- contextName:每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改,可以通过%contextName来打印日志上下文名称。  -->
+    <contextName>robin</contextName>
+
+    <!-- 引入默认配置；提供转换规则、模型属性值和通用日志配置。-->
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
      
-     <!-- 设置控制台日志配置-->
+    <!-- property:用来定义变量值的标签， 有两个属性，name和value；其中name的值是变量的名称，value的值时变量定义的值。变量定义和赋值要放在使用前，不然会报错
+         通过定义的值会被插入到logger上下文中。定义变量后，可以使“${}”来使用变量。  -->
+    <!-- 各日志的打印编码格式
+            %d{HH: mm:ss.SSS}——日志输出时间
+            %contextName 上下文名称(由<contextName>定义的名称)
+            %thread——输出日志的进程名字，这在Web应用以及异步任务处理中很有用
+            %-5level——日志级别，并且使用5个字符靠左对齐
+            %logger{36}——日志输出者的名字
+            %msg——日志消息
+            %n——平台的换行符
+    -->
+    <property name="LOG_FILE" value="springboot-learn"/>
+    <property name="LOG_PATH" value="/springboot/logs" />
+    <property name="LOG_PATTERN_CONSOLE" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{50}:%line --> %msg%n" />
+    <property name="LOG_PATTERN_FILE" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%line --> %msg%n" />
+
+    <!-- 输出到控制台-->
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <!-- appender:用来格式化日志输出节点，有两个属性name和class，class用来指定哪种输出策略，常用就是控制台输出策略和文件输出策略。  -->
     <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder:表示对日志进行编码 -->
         <encoder>
+            <!-- 设置字符集 -->
+            <charset>UTF-8</charset>
             <pattern>${LOG_PATTERN_CONSOLE}</pattern>
         </encoder>
+        <!-- ThresholdFilter为系统定义的拦截器，例如我们用 ThresholdFilter 来过滤掉 INFO 级别以下的日志不输出到文件中 -->
+        <!--
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        -->
     </appender>
      
-     <!-- 设置日志文件配置-->
+    <!-- 输出到文件 -->
     <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>
+
+    <!-- RollingFileAppender 用于切分文件日志 -->
     <appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高，所以我们使用下面的策略，可以避免输出 Error 的日志-->
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!-- 过滤 Error -->
+<!--            <level>ERROR</level>-->
+            <!--匹配到就禁止-->
+<!--            <onMatch>DENY</onMatch>-->
+            <!--没有匹配到就允许-->
+<!--            <onMismatch>ACCEPT</onMismatch>-->
+<!--        </filter>-->
         <encoder>
+            <charset>UTF-8</charset>
             <pattern>${LOG_PATTERN_FILE}</pattern>
         </encoder>
         <file>${LOG_PATH}/${LOG_FILE}.log</file>
+        <!-- rollingPolicy:滚动策略,按照时间滚动 TimeBasedRollingPolicy -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- fileNamePattern:定义日志的切分方式, 下面的为把每一天的日志归档到一个文件中 -->
             <fileNamePattern>${LOG_PATH}/${LOG_FILE}-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- maxHistory:表示只保留最近7天的日志，以防止日志填满整个磁盘空间 -->
             <maxHistory>7</maxHistory>
+            <!-- totalSizeCap:用来指定日志文件的上限大小，例如设置为1GB的话，那么到了这个值，就会删除旧的日志。 -->
+            <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
+
+        <!-- 日志文件最大的大小 -->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>20MB</MaxFileSize>
+        </triggeringPolicy>
     </appender>
 
-    <!-- 各日志的打印规则 -->
-    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
-    <property name="LOG_PATH" value="/FIREFIGHTING/log" />
-    <property name="LOG_PATTERN_CONSOLE" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} --> %msg%n" />
-    <property name="LOG_PATTERN_FILE" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} --> %msg%n" />
+    <!-- logger:用来设置某一个包或者具体的某一个类的日志打印级别、以及指定<appender>；仅有一个name属性，一个可选的level和一个可选的addtivity属性。 -->
+    <!-- name:用来指定受此logger约束的某一个包或者具体的某一个类 -->
+    <!-- level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF;如果未设置此属性，那么当前logger将会继承上级的级别。 -->
+    <!-- addtivity:是否向上级logger传递打印信息。默认是true。 -->
 
-    <!-- 设置日志级别，及需要记录日志的类 -->
+    <!-- root:是必选节点，用来指定最基础的日志输出级别，只有一个level属性。 -->
+    <!-- level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，不能设置为INHERITED或者同义词NULL。默认是DEBUG -->
+
+    <!-- 设置日志文件中保存 INFO 级别日志 -->
+    <logger name="com.robin.springboot.demo.app" level="INFO" addtivity = "false">
+      <appender-ref ref="fileLog"/>
+    </logger>
     <root level="INFO">
-        <appender-ref ref="consoleLog" />
         <appender-ref ref="fileLog" />
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
     </root>
 
-    <logger name="org.springframework.web" level="DEBUG"/>
+    <!-- 设置控制台打印 DEBUG 级别日志 -->
+    <logger name="com.robin.springboot.demo.app" level="DEBUG" addtivity = "false">
+        <appender-ref ref="consoleLog"/>
+    </logger>
+    <root level="DEBUG">
+        <appender-ref ref="consoleLog" />
+    </root>
+
+    <!-- 测试环境 + 开发环境. 多个使用逗号隔开. -->
+<!--
+    <springProfile name="test,dev">
+        <logger name="TestController" level="DEBUG" additivity="false">
+            <appender-ref ref="consoleLog"/>
+        </logger>
+    </springProfile>
+-->
+
+    <!-- 生产环境. -->
+<!--
+    <springProfile name="prod">
+        <logger name="TestController" level="INFO" additivity="false">
+            <appender-ref ref="consoleLog"/>
+        </logger>
+    </springProfile>
+-->
+
+    <!--自定义日志路径 application.yml 传递参数，不能使用logback 自带的<property>标签 -->
+<!--
+logback:
+    logdir: /Users/inke/dev/log/tomcat/sell
+    appname: sell
+-->
+<!--    <springProperty scope="context" name="appname" source="logback.appname"/>-->
+<!--    <springProperty scope="context" name="logdir" source="logback.logdir"/>-->
 </configuration>
