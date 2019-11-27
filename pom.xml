@@ -104,12 +104,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <!-- springboot项目默认使用的是 SLF4J + logback 日志框架； 如果是用 Log4j、log4j2 等日志框架，需要将默认的排除 -->
-           <!-- <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>-->
+            <!-- <exclusions>
+                 <exclusion>
+                     <groupId>org.springframework.boot</groupId>
+                     <artifactId>spring-boot-starter-logging</artifactId>
+                 </exclusion>
+             </exclusions>-->
         </dependency>
         <!-- 测试 -->
         <dependency>
@@ -123,12 +123,17 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- 日志 , 使用默认的 logback 日志框架-->
-       <!-- <dependency>
+        <!-- aop 功能 -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-            <version>2.2.0.RELEASE</version>
-        </dependency>-->
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- 日志 , 使用默认的 logback 日志框架-->
+        <!-- <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-log4j2</artifactId>
+             <version>2.2.0.RELEASE</version>
+         </dependency>-->
 
 
         <!-- ######### 组件依赖 ######### -->
