@@ -1,5 +1,7 @@
 package com.robin.springbootlearn.app.controller;
 
+import com.robin.springbootlearn.common.annotations.SysLog;
+import com.robin.springbootlearn.common.enums.RequestOptTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ public class TestController {
 
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
+    @SysLog(optName = "测试", optType = RequestOptTypeEnum.READ, moduleName = "测试", detail = "查询测试")
     @PostMapping("/first")
     String index(){
 
@@ -29,6 +32,13 @@ public class TestController {
         logger.warn("logger.warn ...");
         logger.error("logger.error ...");
 
+        test();
+
         return "the first app";
+    }
+
+    @SysLog(optName = "测试", optType = RequestOptTypeEnum.READ, moduleName = "测试", detail = "查询测试")
+    private void test(){
+
     }
 }

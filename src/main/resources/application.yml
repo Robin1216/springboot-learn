@@ -4,6 +4,10 @@ server:
   port: 8081  # 端口为 8081， 默认端口为 8080
   tomcat:
     uri-encoding: utf-8  # tomcat 字符集定义为 utf-8
+spring:
+  aop:
+    auto: true
+
 
 # 日志相关配置
 logging:

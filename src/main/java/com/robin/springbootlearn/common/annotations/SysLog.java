@@ -26,6 +26,11 @@ public @interface SysLog {
     String optName();
 
     /**
+     * 模块名
+     */
+    String moduleName();
+
+    /**
      * 明细
      */
     String detail();

@@ -46,6 +46,11 @@ public class SysLogDTO implements Serializable {
     private Boolean result;
 
     /**
+     * 操作ip地址
+     */
+    private String ip;
+
+    /**
      * 操作时间
      */
     private Date createDate;
