@@ -1,1 +1,7 @@
 
+spring:
+  devtools:
+    restart:
+      enabled: false  # 热部署开关: false 关闭
+  main:
+    banner-mode: off  # 关闭 banner

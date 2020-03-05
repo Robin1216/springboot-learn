@@ -76,6 +76,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 开启热部署 -->
+                    <fork>true</fork> <!-- 如果没有该配置，热部署的 devtools 不会生效 -->
+                </configuration>
             </plugin>
         </plugins>
 
@@ -139,21 +143,52 @@
             <version>1.9.4</version>
         </dependency>
 
-        <!-- 日志 , 使用默认的 logback 日志框架-->
+        <!-- 日志； 默认使用 logback 日志框架-->
         <!-- <dependency>
              <groupId>org.springframework.boot</groupId>
              <artifactId>spring-boot-starter-log4j2</artifactId>
              <version>2.2.0.RELEASE</version>
          </dependency>-->
 
+        <!-- web 服务器 jetty；默认使用 tomcat，端口 8080 -->
+        <!-- <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jetty</artifactId>
+        </dependency>-->
+
+        <!-- 访问数据库的核心配置依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!-- JDBC 依赖, 使用 jdbcTemplate 访问数据-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+
 
         <!-- ######### 组件依赖 ######### -->
+        <!-- thymeleaf 模板引擎-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- 文件上传 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+
         <!-- rabbitMQ -->
         <!--        <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-amqp</artifactId>
                 </dependency>-->
-        <!-- elasticsearch -->
+
+        <!-- elasticsearch 搜索引擎-->
         <!--        <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
@@ -180,13 +215,12 @@
                     <artifactId>redisson-spring-boot-starter</artifactId>
                     <version>3.11.5</version>
                 </dependency>-->
-        <!--
+        <!-- mybatis 依赖 -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
-        -->
         <!-- mybatis 的增强版，推荐-->
         <!--        <dependency>
                     <groupId>com.baomidou</groupId>
@@ -226,12 +260,12 @@
                     <artifactId>mqtt-client</artifactId>
                     <version>1.16</version>
                 </dependency>-->
-        <!-- mysql -->
-        <!--        <dependency>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <scope>runtime</scope>
-                </dependency>-->
+        <!-- mysql 驱动配置-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <!-- 分页插件 -->
         <!--        <dependency>
                     <groupId>com.github.pagehelper</groupId>
@@ -288,6 +322,15 @@
                     <artifactId>httpclient</artifactId>
                     <version>4.5.10</version>
                 </dependency>-->
+
+        <!-- 支持热部署, 无需手动重启 spring boot 应用 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖该项目的项目如果想要使用devtools，需要重新引入 -->
+            <optional>true</optional>
+        </dependency>
+
 
         <!-- ######### 工具依赖 ######### -->
         <!-- apache 常用的 java 工具包 -->

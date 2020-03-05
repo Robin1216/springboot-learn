@@ -1,12 +1,45 @@
-
 # 服务端口配置
 server:
   port: 8081  # 端口为 8081， 默认端口为 8080
   tomcat:
     uri-encoding: utf-8  # tomcat 字符集定义为 utf-8
+  servlet:
+    context-path: /robin  # 修改默认访问根路径
+
 spring:
   aop:
-    auto: true
+    auto: on   # 开启 aop
+  banner:
+    charset: UTF-8 # Banner 文件编码.
+    image:
+      invert: false # 对于暗端主题，图像是否应该倒置.
+  thymeleaf:
+    enabled: on
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template: on
+    check-template-location: on
+  mvc:
+    static-path-pattern: /statics/**   #静态资源的请求方式
+  resources:
+    static-locations: classpath:/statics/  # 静态资源的配置位置，可以写成一个数组配置多个目录
+  servlet:
+    multipart:
+      max-file-size: 50MB  # 上传的单个文件的大小，默认 1MB
+      max-request-size: 50MB  # 总上传的数据大小，默认 10MB
+  datasource: # 数据源信息配置
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: robin1216
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:  # JPA 持久化配置
+    database: MySQL  # 指定数据库的类型
+    show-sql: on  # 指定是否在日志中显示 SQL 语句
+    hibernate:
+      ddl-auto: update  # 指定自动创建|更新|检验数据库表结构等配置，配制成 update，表示如果数据库中存在持久化类队形的表就不创建
+
 
 
 # 日志相关配置

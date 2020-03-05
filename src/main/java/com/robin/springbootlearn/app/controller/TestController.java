@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController
+@RestController // @Controller 和 @ResponseBody 的组合
 @RequestMapping("/test")
 public class TestController {
 

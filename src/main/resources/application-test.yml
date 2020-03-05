@@ -1,1 +1,5 @@
 
+spring:
+  devtools:
+    restart:
+      enabled: true  # 热部署开关: false 关闭

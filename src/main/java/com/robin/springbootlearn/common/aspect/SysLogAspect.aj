@@ -1,18 +1,21 @@
 package com.robin.springbootlearn.common.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.robin.springbootlearn.app.service.SysLogService;
 import com.robin.springbootlearn.common.annotations.SysLog;
 import com.robin.springbootlearn.common.pojo.SysLogDTO;
 import com.robin.springbootlearn.utils.IPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -25,22 +28,36 @@ import java.util.Date;
 @Slf4j
 @Aspect
 @Component
-//@EnableAsync
+@EnableAsync
 public class SysLogAspect {
 
-//    @Autowired
-//    private SysLogService sysLogService;
+    @Autowired
+    private SysLogService sysLogService;
+
+    private static SysLogAspect sysLogAspect;
+
+    // 启动时 sysLogService 可能没有被实例化，显示进行实例化
+    @PostConstruct
+    public void init() {
+        sysLogAspect = this;
+        sysLogAspect.sysLogService = this.sysLogService;
+    }
+
 
     // 日志切入点，在注解的位置切入代码
     @Pointcut("@annotation(com.robin.springbootlearn.common.annotations.SysLog)")
-    public void logPointCut() {
+    public void sysLogPointCut() {
     }
 
     // 切面，配置通知
-//    @Around("@annotation(com.robin.springbootlearn.common.annotations.SysLog)")
-//    public Object doAfter(ProceedingJoinPoint pjp) {
-    @AfterReturning("logPointCut()")
-    public void sysNotic(JoinPoint pjp){
+    @Around("@annotation(com.robin.springbootlearn.common.annotations.SysLog)")
+    public void doAfter(ProceedingJoinPoint pjp) {
+        log.error("请求结束");
+    }
+
+    // 后置通知
+    @AfterReturning("sysLogPointCut()")
+    public void sysNotic(JoinPoint pjp) {
         log.info("切面 sysLogDTO");
 
         // 从切面织入点处通过反射机制获取织入点处的方法
@@ -85,5 +102,36 @@ public class SysLogAspect {
             // sysLogService.save(sysLog);
         }
 //        return "success";
+    }
+
+    // 记录异常时的日志，便于后期分析
+    @AfterThrowing(value = "sysLogPointCut()", throwing = "e")
+    private void afterThrowing(JoinPoint jp, Throwable e) {
+        try {
+            String detail = e.getMessage();
+            saveNewLogRecord(jp, false, detail);
+        } catch (Throwable exception) {
+            log.error("保存请求异常后的用户操作日志失败", exception);
+        }
+    }
+
+
+    private void saveNewLogRecord(JoinPoint jp, boolean result, String detail) {
+        // 从切面织入点处通过反射机制获取织入点处的方法
+        Signature signature = jp.getSignature();
+        if (!(signature instanceof MethodSignature)) {
+            throw new IllegalArgumentException("UserOptLogHandler 注解只能用于方法");
+        }
+
+        // 获取注解的内容
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
+        SysLog optLogHandler = method.getAnnotation(SysLog.class);
+        if (optLogHandler != null) {
+
+            String methodName = method.getName();
+            // 请求的参数,将参数所在的数组转换成json
+
+        }
     }
 }

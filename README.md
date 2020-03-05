@@ -44,8 +44,8 @@ springboot 单体样板工程搭建
     |- db 主要是数据库相关的文件；如 sql 程序不执行，仅作存档用
     |- mapper mybatis 的 mapper.xml 文件集合，实现实体对数据表的映射
     |- config 配置文件
-    |- statics 静态资源
-    |- templates 模板资源
+    |- statics 静态资源，如 css、js、image
+    |- templates 模板资源，如 html、jsp
     |- doc 参考文档，不参与业务逻辑
     |- application.yml 主配置文件，通用参数配置
     |- application-dev.yml  开发环境配置
@@ -61,7 +61,7 @@ springboot 单体样板工程搭建
 - tab 键改成 4 个空格 
   IDEA 中设置方式：Editor ->Code Style -> java(如果使用的是其他编程语言请选择其他语言) -> 不要勾选Use tab character -> Indent设置为4（表示按一下tab键代表4个空格）
 - 文件注释规约  
-  - 类、类属性、类方法的注释必须使用 javadoc 规范，使用/**内容*/格式，不得使用 //xxx 方式。
+  - 类、类属性、类方法的注释必须使用 javadoc 规范，使用/\*\*内容**/格式，不得使用 //xxx 方式。
   - 所有的抽象方法（包括接口中的方法）必须要用 javadoc 注释、除了返回值、参数、异常说明外，还必须指出该方法做什么事情，实现什么功能。如有实现和调用注意事项，请一并说明。
   - 所有的类都必须添加创建者信息。
   - 方法内部单行注释，在被注释语句上方另起一行，使用//注释。方法内部多行注释使用/* */注释，注意与代码对齐。
@@ -69,7 +69,7 @@ springboot 单体样板工程搭建
   - 代码修改的同时，注释也要进行相应的修改，尤其是参数、返回值、异常、核心逻辑等的修改。
   - 特殊注释标记，请注明标记人与标记时间。待办事宜（TODO）:（ 标记人，标记时间，[预计处理时间]），在必要的时候进行注解，实现后及时清除
 ```
-    idea 中设置通用的 文件头 file -> settings -> Editor -> -> File+and+Code+Templates -> including -> File header 添加如下内容
+    idea 中设置通用的 文件头 file -> settings -> Editor -> File+and+Code+Templates -> including -> File header 添加如下内容
     /**
     * @author ${USER}
     * @Description
@@ -86,10 +86,10 @@ springboot 单体样板工程搭建
 - 日志处理  
  1. 日志框架选择，打印格式等配置文件配置  
  2. 业务日志打印规约 debug、log、warn、error；异常码规约枚举 
- 3. 全局统一异常处理 
+ 3. 全局统一异常处理, 细分 异常类：对外、对内 
  4. 数据库记录日志    
  5. ELK 日志分析功能  
   
 - 用户鉴权认证  
- 1.用户鉴权、认证  
+ 1.用户鉴权、认证；角色、权限  
  2.SSO 认证
