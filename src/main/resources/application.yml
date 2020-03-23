@@ -7,6 +7,8 @@ server:
     context-path: /robin  # 修改默认访问根路径
 
 spring:
+  profiles:
+    active: dev # active: test、dev、prod，根据 active 的环境，自动采用上面配置的 springProfile 的 logger 日志
   aop:
     auto: on   # 开启 aop
   banner:
@@ -55,6 +57,3 @@ logging:
     max-history: 15  # 最多保留多少天
     max-size: 20MB # 日志最大容量，默认超过 10MB 则被分割为多个文件
 
-#spring:
-#  profiles:
-#    active: dev # active: test、dev、prod，根据 active 的环境，自动采用上面配置的 springProfile 的 logger 日志

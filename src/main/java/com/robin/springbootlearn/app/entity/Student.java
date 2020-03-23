@@ -37,9 +37,6 @@ public class Student implements Serializable {
     @Column(name = "age")
     private Integer age;
 
-    @Column(name = "class_code")
-    private Long classCode;
-
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Class.class)
     @JoinColumn(name = "class_code", referencedColumnName = "code")
     private Class clazz;

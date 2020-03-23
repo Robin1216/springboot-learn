@@ -74,7 +74,6 @@ public class StudentJdbcRepository {
                 ps.setString(2, student.getSex());
                 ps.setInt(3, student.getAge());
                 ps.setString(4, student.getAddress());
-                ps.setLong(5, student.getClassCode());
 
                 return ps;
             }
