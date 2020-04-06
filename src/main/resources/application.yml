@@ -41,7 +41,20 @@ spring:
     show-sql: on  # 指定是否在日志中显示 SQL 语句
     hibernate:
       ddl-auto: update  # 指定自动创建|更新|检验数据库表结构等配置，配制成 update，表示如果数据库中存在持久化类队形的表就不创建
+#  security:
+#    user: # 安全认证，用户姓名、密码
+#      name: admin
+#      password: qw
+#      roles: admin
 
+
+# mybatis-plus 相关配置
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: f_deleted
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
 
 # 日志相关配置

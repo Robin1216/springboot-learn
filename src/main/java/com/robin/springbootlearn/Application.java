@@ -16,7 +16,6 @@ public class Application {
 //        SpringApplication.run(Application.class, args);
 
 
-
         // 关闭热部署;或在 .yml 文件中配置 spring.devtools.restart.enabled: false
         // System.setProperty("spring.devtools.restart.enabled","false");
 

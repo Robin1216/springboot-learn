@@ -308,7 +308,7 @@ public class MybatisPlusCodeGenTool {
         strategy.setEntityColumnConstant(true);  // 【实体】是否生成字段常量（默认 false）
         strategy.setEntityBuilderModel(true);  // 【实体】是否为构建者模型（默认 false）
         strategy.setEntityLombokModel(true);  // 【实体】是否为lombok模型（默认 false）
-        strategy.setEntityBooleanColumnRemoveIsPrefix(false);  // Boolean类型字段是否移除is前缀（默认 false）
+//        strategy.setEntityBooleanColumnRemoveIsPrefix(false);  // Boolean类型字段是否移除is前缀（默认 false）
         strategy.setRestControllerStyle(true);  // 生成 @RestController 控制器
         strategy.setControllerMappingHyphenStyle(true);  // 驼峰转连字符
         strategy.setEntityTableFieldAnnotationEnable(true);  // 是否生成实体时，生成字段注解

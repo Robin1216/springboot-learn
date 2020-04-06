@@ -16,8 +16,7 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 //@Component  // 配置类注解，让 Component Scan 扫描到
 @ConfigurationProperties(prefix = "test")  // 指明前缀
-@PropertySource(value = {"classpath:/config/test.properties"}, encoding = "UTF-8")  // 指明配置位置及编码
-
+@PropertySource(value = {"classpath:config/test.properties"}, encoding = "UTF-8")  // 指明配置位置及编码，config 前不加 '/',不然找不到相应的配置文件
 @EnableConfigurationProperties
 @ConstructorBinding // SpringBoot2.2版本发行后支持了构造函数的方式进行绑定。 此时需要用 @EnableConfigurationProperties 或 @ConfigurationPropertiesScan 将此属性绑定
 public class TestProperties {

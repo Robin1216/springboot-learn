@@ -81,6 +81,7 @@
                     <fork>true</fork> <!-- 如果没有该配置，热部署的 devtools 不会生效 -->
                 </configuration>
             </plugin>
+
         </plugins>
 
         <!-- 这个元素描述了项目相关的所有资源路径列表，例如和项目相关的属性文件，这些资源被包含在最终的打包文件里。 -->
@@ -174,6 +175,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- springboot 安全认证 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- ######### 组件依赖 ######### -->
         <!-- thymeleaf 模板引擎-->
         <dependency>
@@ -226,6 +233,7 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.1</version>
         </dependency>
+
         <!-- mybatis 的增强工具，推荐-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -237,6 +245,17 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>3.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
+
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
