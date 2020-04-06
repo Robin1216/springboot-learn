@@ -93,3 +93,7 @@ springboot 单体样板工程搭建
 - 用户鉴权认证  
  1.用户鉴权、认证；角色、权限  
  2.SSO 认证
+ 
+- 实体dao层处理
+ 1. 统一用 MyBaits Plus 工具进行处理（https://mp.baomidou.com/）
+ 
