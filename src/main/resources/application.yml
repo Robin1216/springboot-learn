@@ -32,7 +32,7 @@ spring:
       max-file-size: 50MB  # 上传的单个文件的大小，默认 1MB
       max-request-size: 50MB  # 总上传的数据大小，默认 10MB
   datasource: # 数据源信息配置
-    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/sso?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: robin1216
     driver-class-name: com.mysql.cj.jdbc.Driver
